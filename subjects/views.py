@@ -12,6 +12,7 @@ from .serializer import SubjectSerializer
 class SubjectList(generics.ListCreateAPIView):
     """
     List all subjects, or create a new subject.
+    列出所有学科，或者创建一个新的学科。
     """
     queryset = Subject.objects.all()
     serializer_class = SubjectSerializer
@@ -19,7 +20,8 @@ class SubjectList(generics.ListCreateAPIView):
 
 class SubjectDetail(APIView):
     """
-        Get one subject, or update or delete a existed subject.
+        Get, update or delete a existed subject.
+        获取、更新或删除一个现有的学科。
     """
     def get_object(self, subject_name):
         try:

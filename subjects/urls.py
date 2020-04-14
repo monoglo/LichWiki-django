@@ -9,5 +9,3 @@ urlpatterns = [
     path('subjects/', views.SubjectList.as_view()),
     path('subjects/<str:subject_name>', views.SubjectDetail.as_view())
 ]
-
-urlpatterns = format_suffix_patterns(urlpatterns)

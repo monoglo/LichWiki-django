@@ -12,6 +12,7 @@ from .serializer import UserSerializer
 class UserList(generics.ListCreateAPIView):
     """
         List all users, or create a new user.
+        列出所有用户，或者创建一个新用户。
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -20,6 +21,7 @@ class UserList(generics.ListCreateAPIView):
 class UserDetail(APIView):
     """
         Get one user, or update or delete a existed user.
+        获取、更新或删除一个现有的用户。
     """
     def get_object(self, user_name):
         try:
@@ -27,12 +29,12 @@ class UserDetail(APIView):
         except User.DoesNotExist:
             raise Http404
 
-    def get(self, request, user_name):
+    def get(self, request, user_name, format=None):
         user = self.get_object(user_name)
         serializer = UserSerializer(user, context={'request': request})
         return Response(serializer.data)
 
-    def put(self, request, user_name):
+    def put(self, request, user_name, format=None):
         user = self.get_object(user_name)
         serializer = UserSerializer(user, data=request.data, context={'request': request})
         if serializer.is_valid():
@@ -40,7 +42,7 @@ class UserDetail(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, user_name):
+    def delete(self, request, user_name, format=None):
         user = self.get_object(user_name)
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -49,6 +51,7 @@ class UserDetail(APIView):
 class UserLogin(APIView):
     """
     User login.
+    用户登陆
     """
     def post(self, request):
         ret = {'code': 1000, 'msg': None}

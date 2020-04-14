@@ -10,5 +10,3 @@ urlpatterns = [
     path('users/<str:user_name>', views.UserDetail.as_view()),
     path('user_login', views.UserLogin.as_view())
 ]
-
-urlpatterns = format_suffix_patterns(urlpatterns)

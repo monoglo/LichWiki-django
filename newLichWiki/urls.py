@@ -26,11 +26,11 @@ from drf_yasg import openapi
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="Snippets API",
+      title="LichWiki API",
       default_version='v1',
-      description="Test description",
+      description="大学知识维基API文档",
       terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="contact@snippets.local"),
+      contact=openapi.Contact(email="monoglo37@gmial.com"),
       license=openapi.License(name="BSD License"),
    ),
    public=True,
