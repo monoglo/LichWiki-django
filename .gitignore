@@ -1,2 +1,9 @@
 /venv
 /*/migrations
+administrators/__pycache__/
+articles/__pycache__/
+models/__pycache__/
+newLichWiki/__pycache__/
+subjects/__pycache__/
+templates/
+users/__pycache__/
