@@ -20,7 +20,7 @@ from rest_framework import routers
 urlpatterns = [
     url('admin/', admin.site.urls),
     # path('', include(router.urls)),
-    url('api/', include(('subjects.urls', 'subjects'), namespace='subjects')),
-    url('api/', include(('users.urls', 'users'), namespace='users')),
+    url('', include(('subjects.urls', 'subjects'), namespace='subjects')),
+    url('', include(('users.urls', 'users'), namespace='users')),
     url('api-auth', include('rest_framework.urls', namespace='rest_framework'))
 ]

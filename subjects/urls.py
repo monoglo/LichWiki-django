@@ -6,8 +6,8 @@ from . import views
 
 app_name = 'subjects'
 urlpatterns = [
-    path('subjects/', views.SubjectList.as_view()),
-    path('subject/<str:subject_name>', views.SubjectDetail.as_view())
+    path('api/subjects/', views.SubjectList.as_view()),
+    path('api/subject/<str:subject_name>', views.SubjectDetail.as_view())
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

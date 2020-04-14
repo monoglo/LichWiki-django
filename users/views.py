@@ -45,9 +45,30 @@ class UserDetail(APIView):
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-'''
+
 class UserLogin(APIView):
-
+    """
+    User login.
+    """
     def post(self, request):
+        ret = {'code': 1000, 'msg': None}
+        try:
+            user = User.objects.filter(u_name=request.data['u_name'], u_password=request.data['u_password']).first()
+            if not user:
+                ret['code'] = '1001'
+                ret['msg'] = '用户名或密码错误！'
+                return Response(ret)
+            serializer = UserSerializer(user, context={'request': request})
+            ret['msg'] = '登录成功'
+            ret['data'] = serializer.data
+            return Response(ret)
+        except Exception as e:
+            ret['code'] = '1002'
+            ret['msg'] = '请求异常！'
+            return Response(ret)
 
-'''
+
+
+
+
+
