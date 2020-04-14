@@ -4,6 +4,8 @@ from rest_framework import serializers
 
 
 class SubjectSerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = Subject
-        fields = ['url', 's_name']
+        fields = ['s_id', 's_name']
+
