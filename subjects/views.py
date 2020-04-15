@@ -46,6 +46,3 @@ class SubjectDetail(APIView):
         subject = self.get_object(subject_name)
         subject.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-

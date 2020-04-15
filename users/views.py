@@ -69,9 +69,3 @@ class UserLogin(APIView):
             ret['code'] = '1002'
             ret['msg'] = '请求异常！'
             return Response(ret)
-
-
-
-
-
-
