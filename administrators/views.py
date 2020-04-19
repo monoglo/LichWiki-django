@@ -13,7 +13,7 @@ class AdministratorList(generics.ListCreateAPIView):
     """
             List all administrators, or create a new administrator.
             列出所有用户，或者创建一个新用户。
-        """
+    """
     queryset = Administrator.objects.all()
     serializer_class = AdministratorSerializer
 

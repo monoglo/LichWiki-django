@@ -17,7 +17,7 @@ class Article(models.Model):
         return self.a_title
 
 
-class ArticleHistroy(models.Model):
+class ArticleHistory(models.Model):
     ah_id = models.AutoField(primary_key=True)
     ah_article = models.ForeignKey(Article, null=True, on_delete=models.SET_NULL)
     ah_author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)

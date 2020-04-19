@@ -20,9 +20,9 @@ class PermissionSerializer(serializers.HyperlinkedModelSerializer):
         model = Permission
         fields = ['p_id', 'admin_id', 'user_id', 'p_permission_node', 'p_time']
 
-    def create(self, args):
+    def create(self, validated_data):
         return Permission.objects.create(
-            p_admin_id=args['p_admin']['admin_id'],
-            p_user_id=args['p_user']['u_id'],
-            p_permission_node=args['p_permission_node']
+            p_admin_id=validated_data.get('p_admin.admin_id'),
+            p_user_id=validated_data.get('p_user.u_id'),
+            p_permission_node=validated_data.get('p_permission_node')
         )
