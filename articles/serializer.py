@@ -38,9 +38,9 @@ class ArticleHistorySerializer(serializers.HyperlinkedModelSerializer):
 
     def create(self, validated_data):
         return ArticleHistory.objects.create(
-            ah_summary=validated_data['ah_summary'],
-            ah_title=validated_data['ah_title'],
-            ah_text=validated_data['ah_text'],
-            ah_article_id=validated_data['ah_article']['a_id'],
-            ah_author_id=validated_data['ah_author']['u_id']
+            ah_summary=validated_data.get('ah_summary'),
+            ah_title=validated_data.get('ah_title'),
+            ah_text=validated_data.get('ah_text'),
+            ah_article_id=validated_data.get('ah_article.a_id'),
+            ah_author_id=validated_data.get('ah_author.u_id')
         )
