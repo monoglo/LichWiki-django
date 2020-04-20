@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework import generics
 
 from .models import User
-from .serializer import UserSerializer
+from .serializers import UserSerializer
 
 
 class UserList(generics.ListCreateAPIView):

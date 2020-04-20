@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework import generics
 
 from .models import Subject
-from .serializer import SubjectSerializer
+from .serializers import SubjectSerializer
 
 
 class SubjectList(generics.ListCreateAPIView):

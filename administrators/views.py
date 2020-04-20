@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework import generics
 
 from .models import Administrator, Permission
-from .serializer import AdministratorSerializer, PermissionSerializer
+from .serializers import AdministratorSerializer, PermissionSerializer
 
 
 class AdministratorList(generics.ListCreateAPIView):

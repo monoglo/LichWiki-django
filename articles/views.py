@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework import generics
 
 from .models import Article, ArticleHistory
-from .serializer import ArticleSerializer, ArticleHistorySerializer
+from .serializers import ArticleSerializer, ArticleHistorySerializer
 
 
 class ArticleList(generics.ListCreateAPIView):
