@@ -14,8 +14,12 @@ class ArticleList(generics.ListCreateAPIView):
             List all articles, or create a new article.
             列出所有词条，或者创建一个新词条。
     """
-    queryset = Article.objects.all()
     serializer_class = ArticleSerializer
+
+    def get_queryset(self):
+        return Article.objects.filter(
+            a_subject__s_name=self.kwargs['subject_name'],
+        )
 
 
 class ArticleDetail(APIView):
