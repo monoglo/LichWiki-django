@@ -54,7 +54,7 @@ class UserLogin(APIView):
     用户登陆
     """
     def post(self, request):
-        ret = {'code': 1000, 'msg': None}
+        ret = {'code': 1000, 'msg': None, 'e': None}
         try:
             user = User.objects.filter(u_name=request.data['u_name'], u_password=request.data['u_password']).first()
             if not user:
@@ -62,10 +62,14 @@ class UserLogin(APIView):
                 ret['msg'] = '用户名或密码错误！'
                 return Response(ret)
             serializer = UserSerializer(user, context={'request': request})
+            request.session['u_id'] = serializer.data['u_id']
+            data = serializer.data
+            data.pop('u_password')
             ret['msg'] = '登录成功'
-            ret['data'] = serializer.data
+            ret['data'] = data
             return Response(ret)
         except Exception as e:
-            ret['code'] = '1002'
-            ret['msg'] = '请求异常！'
+            ret['code'] = '1001'
+            ret['e'] = str(e)
+            ret['msg'] = '用户名或密码错误！'
             return Response(ret)
