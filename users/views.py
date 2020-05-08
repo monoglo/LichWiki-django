@@ -73,3 +73,14 @@ class UserLogin(APIView):
             ret['e'] = str(e)
             ret['msg'] = '用户名或密码错误！'
             return Response(ret)
+
+
+class UserLogout(APIView):
+    """
+    User logout.
+    用户登出.
+    """
+    def post(self, request):
+        ret = {'code': 1000, 'msg': '登出成功', 'e': None}
+        request.session.clear()
+        return Response(ret)
