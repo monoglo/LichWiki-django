@@ -11,6 +11,7 @@ class Article(models.Model):
     a_author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     a_title = models.CharField(max_length=128)
     a_text = models.TextField(null=True)
+    a_length = models.IntegerField(default=0)
     a_create_time = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -24,6 +25,7 @@ class ArticleHistory(models.Model):
     ah_summary = models.CharField(max_length=256, null=True)
     ah_title = models.CharField(max_length=128)
     ah_text = models.TextField(null=True)
+    ah_length = models.IntegerField(default=0)
     ah_edit_time = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

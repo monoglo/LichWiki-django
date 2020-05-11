@@ -42,23 +42,47 @@ class ArticleDetail(APIView):
         article = self.get_object(subject_name, article_title)
         serializer = ArticleSerializer(article, data=request.data, context={'request': request})
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            article_history_data = {
+                'ah_id': request.data.get('a_id'),
+                'article_id': request.data.get('a_id'),
+                'author_id': request.data.get('author_id'),
+                'author_name': request.data.get('author_name'),
+                'ah_summary': request.data.get('ah_summary'),
+                'ah_title': request.data.get('a_title'),
+                'ah_text': request.data.get('a_text'),
+            }
+            article_history_serializer = ArticleHistorySerializer(data=article_history_data)
+            if article_history_serializer.is_valid():
+                serializer.save()
+                article_history_serializer.save()
+                return Response(serializer.data)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ArticleHistoryList(generics.ListCreateAPIView):
+class ArticleHistoryList(APIView):
     """
-        List all article's history, or create a new article's history.
-        列出所有词条，或者创建一个新词条。
+        List all article's history.
+        列出所有词条的所有历史。
     """
-    serializer_class = ArticleHistorySerializer
+    def get_objects(self, subject_name, article_title):
+        try:
+            return ArticleHistory.objects.filter(
+                ah_article__a_subject__s_name=subject_name,
+                ah_article__a_title=article_title
+            )
+        except ArticleHistory.DoesNotExist:
+            raise Http404
 
-    def get_queryset(self):
-        return ArticleHistory.objects.filter(
-            ah_article__a_subject__s_name=self.kwargs['subject_name'],
-            ah_article__a_title=self.kwargs['article_title']
-        )
+    def get(self, request, subject_name, article_title):
+        article_history_queryset = self.get_objects(subject_name, article_title)
+        serializer = ArticleHistorySerializer(article_history_queryset, context={'request': request}, many=True)
+        data = serializer.data
+        for item in data:
+            item.pop('ah_text')
+        return Response(data)
+
+
     # def get_objects(self, subject_name, article_title):
     #     try:
     #         return ArticleHistory.objects.filter(ah_article__a_subject__s_name=subject_name,
