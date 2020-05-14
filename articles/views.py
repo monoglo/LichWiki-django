@@ -27,6 +27,7 @@ class ArticleDetail(APIView):
         Get one article, or update or delete a existed article.
         获取、更新或删除一个现有的词条。
     """
+
     def get_object(self, subject_name, article_title):
         try:
             return Article.objects.get(a_subject__s_name=subject_name, a_title=article_title)
@@ -62,9 +63,10 @@ class ArticleDetail(APIView):
 
 class ArticleHistoryList(APIView):
     """
-        List all article's history.
-        列出所有词条的所有历史。
+        List a specific article's history.
+        列出某一词条的所有历史。
     """
+
     def get_objects(self, subject_name, article_title):
         try:
             return ArticleHistory.objects.filter(
@@ -81,7 +83,6 @@ class ArticleHistoryList(APIView):
         for item in data:
             item.pop('ah_text')
         return Response(data)
-
 
     # def get_objects(self, subject_name, article_title):
     #     try:
@@ -104,11 +105,35 @@ class ArticleHistoryList(APIView):
     #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class ArticleHistoryListByEditor(APIView):
+    """
+        List a specific article's history.
+        列出某一词条的所有历史。
+    """
+
+    def get_objects(self, ah_author_id):
+        try:
+            return ArticleHistory.objects.filter(
+                ah_author_id=ah_author_id
+            )
+        except ArticleHistory.DoesNotExist:
+            raise Http404
+
+    def get(self, request, ah_author_id):
+        article_history_queryset = self.get_objects(ah_author_id)
+        serializer = ArticleHistorySerializer(article_history_queryset, context={'request': request}, many=True)
+        data = serializer.data
+        for item in data:
+            item.pop('ah_text')
+        return Response(data)
+
+
 class ArticleHistoryDetail(APIView):
     """
         Get one article's history.
         根据词条记录ID获取一个词条的记录。
     """
+
     def get_object(self, ah_id):
         try:
             return ArticleHistory.objects.get(ah_id=ah_id)

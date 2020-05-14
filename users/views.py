@@ -32,7 +32,9 @@ class UserDetail(APIView):
     def get(self, request, user_name, format=None):
         user = self.get_object(user_name)
         serializer = UserSerializer(user, context={'request': request})
-        return Response(serializer.data)
+        data = serializer.data
+        data.pop('u_password')
+        return Response(data)
 
     def put(self, request, user_name, format=None):
         user = self.get_object(user_name)

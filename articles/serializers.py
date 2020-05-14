@@ -10,7 +10,8 @@ class ArticleSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Article
-        fields = ['a_id', 'subject_id', 'subject_name', 'author_id', 'author_name', 'a_title', 'a_text', 'a_length', 'a_create_time']
+        fields = ['a_id', 'subject_id', 'subject_name', 'author_id', 'author_name', 'a_title', 'a_text', 'a_length',
+                  'a_create_time']
 
     def create(self, validated_data):
         return Article.objects.create(
@@ -34,12 +35,15 @@ class ArticleSerializer(serializers.HyperlinkedModelSerializer):
 
 class ArticleHistorySerializer(serializers.HyperlinkedModelSerializer):
     article_id = serializers.IntegerField(source='ah_article.a_id')
+    article_name = serializers.CharField(source='ah_article.a_title')
+    article_subject_name = serializers.CharField(source='ah_article.a_subject.s_name')
     author_id = serializers.IntegerField(source='ah_author.u_id')
     author_name = serializers.CharField(source='ah_author.u_name')
 
     class Meta:
         model = ArticleHistory
-        fields = ['ah_id', 'article_id', 'author_id', 'author_name', 'ah_summary', 'ah_title', 'ah_text', 'ah_length', 'ah_edit_time']
+        fields = ['ah_id', 'article_id', 'author_id', 'article_name', 'article_subject_name', 'author_name',
+                  'ah_summary', 'ah_title', 'ah_text', 'ah_length', 'ah_edit_time']
 
     def create(self, validated_data):
         return ArticleHistory.objects.create(
