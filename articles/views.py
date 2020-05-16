@@ -44,8 +44,9 @@ class ArticleDetail(APIView):
         serializer = ArticleSerializer(article, data=request.data, context={'request': request})
         if serializer.is_valid():
             article_history_data = {
-                'ah_id': request.data.get('a_id'),
                 'article_id': request.data.get('a_id'),
+                'article_name': request.data.get('a_title'),
+                'article_subject_name': request.data.get('subject_name'),
                 'author_id': request.data.get('author_id'),
                 'author_name': request.data.get('author_name'),
                 'ah_summary': request.data.get('ah_summary'),
@@ -56,9 +57,13 @@ class ArticleDetail(APIView):
             if article_history_serializer.is_valid():
                 serializer.save()
                 article_history_serializer.save()
-                return Response(serializer.data)
+                data = article_history_serializer.data
+                data.pop('ah_text')
+                return Response(data)
             else:
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                return Response(article_history_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ArticleHistoryList(APIView):
