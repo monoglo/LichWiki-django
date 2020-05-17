@@ -14,13 +14,25 @@ class ArticleSerializer(serializers.HyperlinkedModelSerializer):
                   'a_create_time']
 
     def create(self, validated_data):
-        return Article.objects.create(
-            a_subject_id=validated_data.get('a_subject').get('s_id'),
-            a_author_id=validated_data.get('a_author').get('u_id'),
-            a_title=validated_data.get('a_title'),
-            a_length=len(validated_data.get('a_title')),
-            a_text=validated_data.get('a_text')
-        )
+        if Article.objects.filter(a_title=validated_data.get('a_title'), a_subject_id=validated_data.get('a_subject').get('s_id')):
+            raise Article.MultipleObjectsReturned
+        else:
+            create = Article.objects.create(
+                a_subject_id=validated_data.get('a_subject').get('s_id'),
+                a_author_id=validated_data.get('a_author').get('u_id'),
+                a_title=validated_data.get('a_title'),
+                a_length=len(validated_data.get('a_title')),
+                a_text=validated_data.get('a_text')
+            )
+            ArticleHistory.objects.create(
+                ah_summary='创建页面',
+                ah_title=validated_data.get('a_title'),
+                ah_text=validated_data.get('a_text'),
+                ah_length=len(validated_data.get('a_title')),
+                ah_article_id=create.a_id,
+                ah_author_id=validated_data.get('a_author').get('u_id')
+            )
+            return create
 
     def update(self, instance, validated_data):
         print(validated_data)
