@@ -89,26 +89,6 @@ class ArticleHistoryList(APIView):
             item.pop('ah_text')
         return Response(data)
 
-    # def get_objects(self, subject_name, article_title):
-    #     try:
-    #         return ArticleHistory.objects.filter(ah_article__a_subject__s_name=subject_name,
-    #             ah_article__a_title=article_title)
-    #     except ArticleHistory.DoesNotExist:
-    #         raise Http404
-    #
-    # def get(self, request, subject_name, article_title):
-    #     article_history = self.get_objects(subject_name, article_title)
-    #     serializer = ArticleHistorySerializer(article_history, many=True, context={'request': request})
-    #     return Response(serializer.data)
-
-    # 更好的创建词条历史方式
-    #     def post(self, request):
-    #         serializer = ArticleHistorySerializer(data=request.data, context={'request': request})
-    #         if serializer.is_valid():
-    #             serializer.save()
-    #             return Response(serializer.data, status=status.HTTP_201_CREATED)
-    #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 class ArticleHistoryListByEditor(APIView):
     """
