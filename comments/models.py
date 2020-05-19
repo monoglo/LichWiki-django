@@ -7,5 +7,5 @@ class Comment(models.Model):
     c_url = models.CharField(max_length=256)
     c_text = models.TextField(max_length=256)
     c_user = models.ForeignKey(User, on_delete=models.CASCADE)
-    c_father_comment_id = models.IntegerField(null=True)
+    c_father_comment = models.ForeignKey('self', null=True, on_delete=models.SET_NULL)
     c_create_time = models.DateTimeField(auto_now_add=True)
