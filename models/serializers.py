@@ -11,13 +11,17 @@ class ModelSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['m_id', 'm_name', 'm_text', 'subject_id', 'author_id', 'm_create_time']
 
     def create(self, validated_data):
-        print(validated_data)
-        return Model.objects.create(
-            m_subject_id=validated_data.get('m_subject').get('s_id'),
-            m_author_id=validated_data.get('m_author').get('u_id'),
-            m_name=validated_data.get('m_name'),
-            m_text=validated_data.get('m_text'),
-        )
+        if Model.objects.filter(m_name=validated_data.get('m_name'),
+                                m_subject_id=validated_data.get('m_subject').get('s_id')):
+            raise Model.MultipleObjectsReturned
+        else:
+            model = Model.objects.create(
+                m_subject_id=validated_data.get('m_subject').get('s_id'),
+                m_author_id=validated_data.get('m_author').get('u_id'),
+                m_name=validated_data.get('m_name'),
+                m_text=validated_data.get('m_text'),
+            )
+            return model
 
     def update(self, instance, validated_data):
         instance.subject_id = validated_data.get('m_subject').get('s_id')
