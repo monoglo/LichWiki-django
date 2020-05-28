@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'articles',
     'administrators',
     'models',
-    'comments'
+    'comments',
+    'notifications'
 ]
 
 MIDDLEWARE = [
