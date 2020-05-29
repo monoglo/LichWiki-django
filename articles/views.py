@@ -35,14 +35,15 @@ class ArticleDetail(APIView):
             raise Http404
 
     def get(self, request, subject_name, article_title):
+        print(request.user)
         article = self.get_object(subject_name, article_title)
         serializer = ArticleSerializer(article, context={'request': request})
         return Response(serializer.data)
 
     def put(self, request, subject_name, article_title):
         article = self.get_object(subject_name, article_title)
-        serializer = ArticleSerializer(article, data=request.data, context={'request': request})
-        if serializer.is_valid():
+        article_serializer = ArticleSerializer(article, data=request.data, context={'request': request})
+        if article_serializer.is_valid():
             article_history_data = {
                 'article_id': request.data.get('a_id'),
                 'article_name': request.data.get('a_title'),
@@ -55,7 +56,7 @@ class ArticleDetail(APIView):
             }
             article_history_serializer = ArticleHistorySerializer(data=article_history_data)
             if article_history_serializer.is_valid():
-                serializer.save()
+                article_serializer.save()
                 article_history_serializer.save()
                 data = article_history_serializer.data
                 data.pop('ah_text')
@@ -63,7 +64,7 @@ class ArticleDetail(APIView):
             else:
                 return Response(article_history_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(article_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ArticleHistoryList(APIView):
