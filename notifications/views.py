@@ -21,9 +21,6 @@ class SelectAllNotificationWithoutTextByUserName(APIView):
         notification_serializer = NotificationSerializer(notification, many=True, context={'request': request})
         if notification:
             response_data = notification_serializer.data
-            for item in response_data:
-                item.pop('n_has_read')
-                item.pop('n_text')
             return Response(response_data)
         else:
             return Response(status.HTTP_404_NOT_FOUND)
@@ -44,4 +41,3 @@ class SelectNotificationDetailByNotificationID(APIView):
 class CreateNotification(generics.ListCreateAPIView):
     queryset = Notification.objects.all()
     serializer_class = NotificationSerializer
-

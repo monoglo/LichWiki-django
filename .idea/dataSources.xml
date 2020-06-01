@@ -6,6 +6,9 @@
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:C:\Users\RankOfMatrix\PycharmProjects\newLichWiki\db.sqlite3</jdbc-url>
+      <driver-properties>
+        <property name="date_string_format" value="&quot;yyyy-MM-dd HH:mm:ss.SSS&quot;" />
+      </driver-properties>
       <libraries>
         <library>
           <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.25.1/license.txt</url>
