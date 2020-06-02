@@ -7,15 +7,27 @@ from rest_framework import generics
 
 from .models import User
 from .serializers import UserSerializer
+from newLichWiki import utils
 
 
-class UserList(generics.ListCreateAPIView):
-    """
-        List all users, or create a new user.
-        列出所有用户，或者创建一个新用户。
-    """
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+# class UserList(generics.ListCreateAPIView):
+#     """
+#         List all users, or create a new user.
+#         列出所有用户，或者创建一个新用户。
+#     """
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
+
+
+class CreateUser(APIView):
+    def post(self, request):
+        user_serializer = UserSerializer(data=request.data)
+        if user_serializer.is_valid():
+            user = user_serializer.save()
+            user_serializer = UserSerializer(user)
+            utils.add_notification("欢迎来到LichWiki！", "点击左上角弹出栏加入编辑吧！", user_serializer.data.get('u_id'))
+            return Response(user_serializer.data, status=status.HTTP_201_CREATED)
+        return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserDetail(APIView):
@@ -65,6 +77,7 @@ class UserLogin(APIView):
                 return Response(ret)
             serializer = UserSerializer(user, context={'request': request})
             request.session['u_id'] = serializer.data['u_id']
+            request.session['is_login'] = True
             data = serializer.data
             data.pop('u_password')
             ret['msg'] = '登录成功'
