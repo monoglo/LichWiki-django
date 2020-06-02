@@ -39,7 +39,7 @@ class ArticleSerializer(serializers.HyperlinkedModelSerializer):
         instance.subject_id = validated_data.get('a_subject').get('s_id')
         instance.author_id = validated_data.get('a_author').get('u_id')
         instance.a_title = validated_data.get('a_title')
-        instance.a_length = len(validated_data.get('a_title'))
+        instance.a_length = len(validated_data.get('a_text'))
         instance.a_text = validated_data.get('a_text')
         instance.save()
         return instance

@@ -130,3 +130,12 @@ class ArticleHistoryDetail(APIView):
         article_history = self.get_object(ah_id=ah_id)
         serializer = ArticleHistorySerializer(article_history, context={'request': request})
         return Response(serializer.data)
+
+
+class GetLatestUpdateInfo(APIView):
+    def get(self, request, subject_name, article_title):
+        article_history = ArticleHistory.objects.filter(ah_article__a_subject__s_name=subject_name, ah_article__a_title=article_title).last()
+        serializer = ArticleHistorySerializer(article_history, context={'request': request})
+        data = serializer.data
+        data.pop('ah_text')
+        return Response(data)

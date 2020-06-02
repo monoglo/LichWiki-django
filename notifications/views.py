@@ -7,7 +7,7 @@ from rest_framework import generics
 
 from .models import Notification
 from users.models import User
-from .serializers import NotificationSerializer
+from .serializers import NotificationSerializer, CreateNotificationSerializer
 
 
 class SelectUnreadNotificationAmountByUserID(APIView):
@@ -40,4 +40,4 @@ class SelectNotificationDetailByNotificationID(APIView):
 
 class CreateNotification(generics.ListCreateAPIView):
     queryset = Notification.objects.all()
-    serializer_class = NotificationSerializer
+    serializer_class = CreateNotificationSerializer
