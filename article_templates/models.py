@@ -1,10 +1,9 @@
 from django.db import models
 from users.models import User
 from subjects.models import Subject
-# Create your models here.
 
 
-class Model(models.Model):
+class ArticleTemplate(models.Model):
     m_id = models.AutoField(primary_key=True)
     m_name = models.CharField(max_length=128)
     m_text = models.TextField()

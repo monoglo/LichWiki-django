@@ -24,7 +24,7 @@ SECRET_KEY = '5qe1xn-w6$7$*4nxviaj*d6*beuo#5qqus!p*-ff1uio09x1mj'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['api.rankofmatrix.com']
 
 # Application definition
 
@@ -38,11 +38,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'corsheaders',
+    'sslserver',
     'subjects',
     'users',
     'articles',
     'administrators',
-    'models',
+    'article_templates',
     'comments',
     'notifications'
 ]
@@ -138,10 +139,7 @@ REST_FRAMEWORK = {
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:8080',
-    'http://127.0.0.1:8080',
-    'http://127.0.0.1:8081',
-    'http://localhost:8081'
+    'https://www.rankofmatrix.com'
 ]
 
 CORS_ALLOW_METHODS = (

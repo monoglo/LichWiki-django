@@ -5,16 +5,16 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import generics
 
-from .models import Model
-from .serializers import ModelSerializer
+from .models import ArticleTemplate
+from article_templates.serializers import GetModelSerializer, PostModelSerializer
 
 
 class ModelList(generics.ListCreateAPIView):
 
-    serializer_class = ModelSerializer
+    serializer_class = GetModelSerializer
 
     def get_queryset(self):
-        return Model.objects.filter(
+        return ArticleTemplate.objects.filter(
             m_subject__s_name=self.kwargs['subject_name']
         )
 
@@ -22,18 +22,18 @@ class ModelList(generics.ListCreateAPIView):
 class ModelDetail(APIView):
     def get_object(self, subject_name, model_name):
         try:
-            return Model.objects.get(m_subject__s_name=subject_name, m_name=model_name)
-        except Model.DoesNotExist:
+            return ArticleTemplate.objects.get(m_subject__s_name=subject_name, m_name=model_name)
+        except ArticleTemplate.DoesNotExist:
             raise Http404
 
     def get(self, request, subject_name, model_name):
         model = self.get_object(subject_name, model_name)
-        serializer = ModelSerializer(model, context={'request': request})
+        serializer = PostModelSerializer(model, context={'request': request})
         return Response(serializer.data)
 
     def put(self, request, subject_name, model_name):
         model = self.get_object(subject_name, model_name)
-        serializer = ModelSerializer(model, data=request.data, context={'request': request})
+        serializer = PostModelSerializer(model, data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
