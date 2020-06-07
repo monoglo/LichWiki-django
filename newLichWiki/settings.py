@@ -22,9 +22,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '5qe1xn-w6$7$*4nxviaj*d6*beuo#5qqus!p*-ff1uio09x1mj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['api.rankofmatrix.com']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'corsheaders',
-    'sslserver',
+    # 'sslserver',
     'subjects',
     'users',
     'articles',
@@ -139,7 +139,10 @@ REST_FRAMEWORK = {
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = [
-    'https://www.rankofmatrix.com'
+    'http://localhost:8080',
+    'http://127.0.0.1:8080',
+    'http://127.0.0.1:8081',
+    'http://localhost:8081'
 ]
 
 CORS_ALLOW_METHODS = (
