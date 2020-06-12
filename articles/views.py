@@ -134,8 +134,30 @@ class ArticleHistoryDetail(APIView):
 
 class GetLatestUpdateInfo(APIView):
     def get(self, request, subject_name, article_title):
-        article_history = ArticleHistory.objects.filter(ah_article__a_subject__s_name=subject_name, ah_article__a_title=article_title).last()
+        article_history = ArticleHistory.objects.filter(ah_article__a_subject__s_name=subject_name,
+                                                        ah_article__a_title=article_title).last()
         serializer = ArticleHistorySerializer(article_history, context={'request': request})
         data = serializer.data
         data.pop('ah_text')
         return Response(data)
+
+
+class RollbackArticleHistory(APIView):
+    def post(self, request):
+        article_history = ArticleHistory.objects.get(ah_id=request.data['ah_id'])
+        if article_history:
+            article = Article.objects.get(a_id=article_history.ah_article_id)
+
+            article.a_text = article_history.ah_text
+            article.a_length = article_history.ah_length
+            article.save()
+            new_article_history = ArticleHistory.objects.create(ah_summary='回滚页面到(' + article_history.ah_summary + ')',
+                                                                ah_title=article_history.ah_title,
+                                                                ah_text=article_history.ah_text,
+                                                                ah_length=article_history.ah_length,
+                                                                ah_article_id=article_history.ah_article_id,
+                                                                ah_author_id=request.data['u_id'])
+            serializer = ArticleHistorySerializer(new_article_history)
+            return Response(serializer.data)
+        else:
+            return Http404
